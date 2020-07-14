@@ -4,8 +4,14 @@ void main() {
   runApp(LearningFlutter());
 }
 
-class LearningFlutter extends StatelessWidget {
+class LearningFlutter extends StatefulWidget {
+  @override
+  _LearningFlutterState createState() => _LearningFlutterState();
+}
+
+class _LearningFlutterState extends State<LearningFlutter> {
   var _questionIndex = 0;
+
   void _answerQuestions() {
     _questionIndex = _questionIndex + 1;
   }
