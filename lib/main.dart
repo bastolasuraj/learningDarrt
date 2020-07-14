@@ -4,18 +4,10 @@ void main() {
   runApp(LearningFlutter());
 }
 
-class LearningFlutter extends StatefulWidget {
-  @override
-  LearningFlutterState createState() => LearningFlutterState();
-}
-
-class LearningFlutterState extends State<LearningFlutter> {
-  var questionIndex = 0;
-
-  void answerQuestions() {
-    setState(() {
-      questionIndex = questionIndex + 1;
-    });
+class LearningFlutter extends StatelessWidget {
+  var _questionIndex = 0;
+  void _answerQuestions() {
+    _questionIndex = _questionIndex + 1;
   }
 
   @override
@@ -33,18 +25,18 @@ class LearningFlutterState extends State<LearningFlutter> {
           ),
           body: Column(
             children: [
-              Text(questions[questionIndex]),
+              Text(questions[_questionIndex]),
               RaisedButton(
                 child: Text("Answer 1"),
-                onPressed: answerQuestions,
+                onPressed: _answerQuestions,
               ),
               RaisedButton(
                 child: Text("Answer 2"),
-                onPressed: answerQuestions,
+                onPressed: _answerQuestions,
               ),
               RaisedButton(
                 child: Text("Answer 3"),
-                onPressed: answerQuestions,
+                onPressed: _answerQuestions,
               ),
             ],
           )),
