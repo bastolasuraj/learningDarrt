@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
+import './quiz.dart';
+import './result.dart';
 
 void main() {
   runApp(LearningFlutter());
@@ -6,46 +8,53 @@ void main() {
 
 class LearningFlutter extends StatefulWidget {
   @override
-  _LearningFlutterState createState() => _LearningFlutterState();
+  State<StatefulWidget> createState() {
+    return _LearningFlutterState();
+  }
 }
 
 class _LearningFlutterState extends State<LearningFlutter> {
+  final _questions = const [
+    {
+      "questionText": "What is your birth color?",
+      "answers": ["Red", "Green", "Blue", "Black", "White"]
+    },
+    {
+      "questionText": "What is your best friends name?",
+      "answers": ["John", "Oliver", "Felicity", "Thea", "Roy"]
+    },
+    {
+      "questionText": "What is your name?",
+      "answers": ["Spartan", "Arrow", "Over Watch", "Speedy", "Arsenal"]
+    },
+    {
+      "questionText": "What is your Father's name?",
+      "answers": ["JJ", "Robert", "Gwendolyn", "Maria", "Laila"]
+    },
+  ];
   var _questionIndex = 0;
 
   void _answerQuestions() {
-    _questionIndex = _questionIndex + 1;
+    setState(() {
+      _questionIndex = _questionIndex + 1;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      "What is your birth color?",
-      "What is your best friends name?",
-      "What is your name?",
-      "What is your Father's name?"
-    ];
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: Text("QnA"),
-          ),
-          body: Column(
-            children: [
-              Text(questions[_questionIndex]),
-              RaisedButton(
-                child: Text("Answer 1"),
-                onPressed: _answerQuestions,
-              ),
-              RaisedButton(
-                child: Text("Answer 2"),
-                onPressed: _answerQuestions,
-              ),
-              RaisedButton(
-                child: Text("Answer 3"),
-                onPressed: _answerQuestions,
-              ),
-            ],
-          )),
+        appBar: AppBar(
+          title: Text("QnA"),
+        ),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                answerQuestion: _answerQuestions,
+                questionIndex: _questionIndex,
+                questions: _questions,
+              )
+            : Result(),
+      ),
     );
   }
 }
