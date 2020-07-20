@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import './adaptiveFlatButtons.dart';
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 
@@ -51,7 +55,7 @@ class _NewTransactionState extends State<NewTransaction> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-          child: Card(
+      child: Card(
         elevation: 5,
         child: Container(
           margin: EdgeInsets.only(
@@ -92,15 +96,7 @@ class _NewTransactionState extends State<NewTransaction> {
                             : DateFormat.yMMMd().format(_selectedDate),
                       ),
                     ),
-                    FlatButton(
-                      onPressed: _displayDatePicker,
-                      child: Text(
-                        "Choose Date",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                    AdaptiveFlatButtons("Choose Date", _displayDatePicker),
                   ],
                 ),
               ),
