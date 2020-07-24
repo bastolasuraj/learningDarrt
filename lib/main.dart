@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import './screens/tabScreen.dart';
+import './screens/mealDetail_screen.dart';
 import './screens/categoryMeals_screen.dart';
 import './screens/categories_screen.dart';
 
@@ -13,6 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Meals App",
       theme: ThemeData(
+        backgroundColor: Colors.white,
         primarySwatch: Colors.green,
         accentColor: Colors.teal,
         canvasColor: Color.fromRGBO(111, 111, 111, 1),
@@ -31,9 +34,15 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: CategoriesScreen(),
       routes: {
-        CategoryMeals.routeCategoryNames: (ctx) => CategoryMeals(),
+        '/': (ctx) => TabsScreen(),
+        CategoryMeals.routeNames: (ctx) => CategoryMeals(),
+        MealDetails.routeNames: (ctx) => MealDetails(),
+      },
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (context) => CategoriesScreen(),
+        );
       },
     );
   }
