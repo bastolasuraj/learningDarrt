@@ -17,11 +17,10 @@ class _CategoryMealsState extends State<CategoryMeals> {
   var _loadedInitData = false;
 
   @override
-  // void initState() {
-  //   // TODO: implement initState
+  void initState() {
+    super.initState();
+  }
 
-  //   super.initState();
-  // }
   @override
   void didChangeDependencies() {
     if (!_loadedInitData) {
@@ -37,11 +36,6 @@ class _CategoryMealsState extends State<CategoryMeals> {
     super.didChangeDependencies();
   }
 
-  void _removeMeal(String mealId) {
-    setState(() {
-      displayedMeals.removeWhere((meal) => meal.id == mealId);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +52,6 @@ class _CategoryMealsState extends State<CategoryMeals> {
             affordability: displayedMeals[index].affordability,
             complexity: displayedMeals[index].complexity,
             duration: displayedMeals[index].duration,
-            removeItem: _removeMeal,
           );
         },
         itemCount: displayedMeals.length,
