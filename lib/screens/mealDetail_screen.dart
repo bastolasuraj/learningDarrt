@@ -3,6 +3,8 @@ import 'package:mealsApp/dummy_data.dart';
 
 class MealDetails extends StatelessWidget {
   static const routeNames = '/mealDetails';
+  final Function toggleFavouriteMeal;
+  MealDetails(this.toggleFavouriteMeal);
 
   Widget buildSectionTitle(BuildContext context, String text) {
     return Container(
@@ -96,11 +98,9 @@ class MealDetails extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
-          Icons.delete,
+          Icons.stars,
         ),
-        onPressed: () {
-          Navigator.of(context).pop(mealId);
-        },
+        onPressed: toggleFavouriteMeal,
       ),
     );
   }

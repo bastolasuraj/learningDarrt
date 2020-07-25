@@ -1,16 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:mealsApp/screens/filtersScreen.dart';
+import './dummy_data.dart';
+import './screens/filtersScreen.dart';
 import './screens/tabScreen.dart';
 import './screens/mealDetail_screen.dart';
 import './screens/categoryMeals_screen.dart';
 import './screens/categories_screen.dart';
+import './models/meal.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Map<String, bool> _filters = {
+    'gluten': false,
+    'lactose': false,
+    'vegan': false,
+    'vegetarian': false,
+  };
+  List<Meal> _availableMeals = DUMMY_MEALS;
+  List<Meal> _favouriteMeals = [];
+  void _setFilters(Map<String, bool> _filterData) {
+    setState(() {
+      _filters = _filterData;
+      _availableMeals = DUMMY_MEALS.where((meal) {
+        if (_filters['gluten'] && !meal.isGlutenFree) {
+          return false;
+        }
+        if (_filters['lactose'] && !meal.isLactoseFree) {
+          return false;
+        }
+        if (_filters['vegan'] && !meal.isVegan) {
+          return false;
+        }
+        if (_filters['vegetarian'] && !meal.isVegetarian) {
+          return false;
+        }
+        return true;
+      }).toList();
+    });
+  }
+
+  void _toggleFavouriteMeal(String mealId) {
+    final existingIndex =
+        _favouriteMeals.indexWhere((meal) => meal.id == mealId);
+    if (existingIndex >= 0) {
+      setState(() {
+        _favouriteMeals.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _favouriteMeals
+            .add(DUMMY_MEALS.firstWhere((meal) => meal.id == mealId));
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,10 +87,10 @@ class MyApp extends StatelessWidget {
             ),
       ),
       routes: {
-        '/': (ctx) => TabsScreen(),
-        CategoryMeals.routeNames: (ctx) => CategoryMeals(),
-        MealDetails.routeNames: (ctx) => MealDetails(),
-        FiltersScreen.routeNames: (cts)=>FiltersScreen(),
+        '/': (ctx) => TabsScreen(_favouriteMeals),
+        CategoryMeals.routeNames: (ctx) => CategoryMeals(_availableMeals),
+        MealDetails.routeNames: (ctx) => MealDetails(_toggleFavouriteMeal),
+        FiltersScreen.routeNames: (cts) => FiltersScreen(_setFilters, _filters),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
